@@ -50,7 +50,7 @@ class Main:
                     # IF DRAGGED SOMETHING
                     if dragger.dragging:
                         clicked_row, clicked_col = event.pos[1] // SQUARE_SIZE, event.pos[0] // SQUARE_SIZE
-                        game.make_move(screen, board, dragger.piece,
+                        game.make_move(board, dragger.piece,
                                        dragger.initial_row, dragger.initial_col, clicked_row, clicked_col)
 
                         dragger.undrag_piece()

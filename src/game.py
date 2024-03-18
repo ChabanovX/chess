@@ -47,10 +47,9 @@ class Game:
                         piece.texture_rect = img.get_rect(center=img_center)
                         surface.blit(img, piece.texture_rect)
 
-    def make_move(self, screen, board, dragged_piece, past_row, past_col, cur_row, cur_col):
+    def make_move(self, board, dragged_piece, past_row, past_col, cur_row, cur_col):
         """
         SOSO
-        :param screen:
         :param board:
         :param dragged_piece:
         :param past_row:
