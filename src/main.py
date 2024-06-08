@@ -14,54 +14,71 @@ class Main:
 
     def mainloop(self):
         game = self.game
-        screen = self.screen  # SURFACE
+        screen = self.screen
         dragger = self.game.dragger
         board = self.game.board
+        themes = self.game.themes
 
         while True:
+
             game.show_bg(screen)
             game.show_pieces(screen)
 
-            if dragger.dragging:  # IF WE DRUG DO SHIT
+            # Update piece blit while drugging
+            if dragger.dragging:
                 dragger.update_blit(screen)
-            # BUTTONS
+
+            # value = pygame.event.get()
+            # if value:
+            #     print(value)
+
+            # Check events
             for event in pygame.event.get():
-                # CLICKING
-                if event.type == pygame.MOUSEBUTTONDOWN:
+
+                if event.type == pygame.KEYDOWN and event.dict['key'] == UP_ARROW_NUM:
+                    game.__init__()
+                    dragger = self.game.dragger
+                    board = self.game.board
+                    themes = self.game.themes
+
+                elif event.type == pygame.KEYDOWN and event.dict['key'] == LEFT_ARROW_NUM:
+                    themes.set_prev_theme()
+
+                elif event.type == pygame.KEYDOWN and event.dict['key'] == RIGHT_ARROW_NUM:
+                    themes.set_next_theme()
+
+                elif event.type == pygame.MOUSEBUTTONDOWN:
                     dragger.update_mouse(event.pos)
-                    # UPDATE COORDINATES
                     clicked_row = dragger.mouse_y // SQUARE_SIZE
                     clicked_col = dragger.mouse_x // SQUARE_SIZE
-                    # HAS PIECE ?
+                    # The cell has a piece?
                     if board.squares[clicked_row][clicked_col].has_piece():
                         piece = board.squares[clicked_row][clicked_col].piece
-                        # SAVE FUCKING COORDINATES
+                        # Start dragging a piece
                         dragger.save_initial((dragger.mouse_y, dragger.mouse_x))
                         dragger.drag_piece(piece)
 
-                # MOTION
                 elif event.type == pygame.MOUSEMOTION:
+                    # Continue dragging event
                     if dragger.dragging:
                         dragger.update_mouse(event.pos)
                         dragger.update_blit(screen)
 
-                # UNCLICKING
                 elif event.type == pygame.MOUSEBUTTONUP:
-                    # IF DRAGGED SOMETHING
+                    # Leave peace on the new place
                     if dragger.dragging:
                         clicked_row, clicked_col = event.pos[1] // SQUARE_SIZE, event.pos[0] // SQUARE_SIZE
                         game.make_move(board, dragger.piece,
                                        dragger.initial_row, dragger.initial_col, clicked_row, clicked_col)
 
-                        dragger.undrag_piece()
+                        dragger.undrag_piece()  # As we do not drag anymore
 
-                        print(f"From {dragger.initial_row} {dragger.initial_col}\n"
-                              f"Came {clicked_row} {clicked_col} with coos: {dragger.mouse_y} {dragger.mouse_x}\n"
-                              f"Move is the {game.moves_done}th\n"
-                              f"---")
-                    else:
-                        pass
-                # EXITING
+                        # # Logger
+                        # print(f"From {dragger.initial_row} {dragger.initial_col}\n"
+                        #       f"Came {clicked_row} {clicked_col} with coos: {dragger.mouse_y} {dragger.mouse_x}\n"
+                        #       f"Move is the {game.moves_done}th\n"
+                        #       f"---")
+
                 elif event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit(0)
@@ -69,5 +86,6 @@ class Main:
             pygame.display.update()
 
 
-main = Main()
-main.mainloop()
+if __name__ == "__main__":
+    main = Main()
+    main.mainloop()

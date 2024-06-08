@@ -19,7 +19,7 @@ class Dragger:
 
     def save_initial(self, pos):
         """
-        Saves initial row and column.
+        # Save initial row and column.
 
         :param pos: (x, y) coordinates
         """
@@ -35,7 +35,7 @@ class Dragger:
         self.dragging = False
 
     def update_blit(self, surface: pygame.Surface):
-        """ Create Image """
+        """ Create motion while 'holding' a peace """
         self.piece.set_texture(size=128)
         img = pygame.image.load(self.piece.texture)
         img_center = self.mouse_x, self.mouse_y
