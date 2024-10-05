@@ -2,6 +2,11 @@
 
 A chess game project with a focus on dynamic board analysis and learning tools.
 
+## Example
+
+![Board themes](https://github.com/ChabanovX/chess/blob/main/board_variations.png)
+
+
 ## Run
 
 ### 1. Install the repo
@@ -21,10 +26,6 @@ pip install -r requirements.txt
 ```bash
 python src/main.py
 ```
-
-## Example
-
-![Board themes](https://github.com/ChabanovX/chess/blob/main/board_variations.png)
 
 ## Features
 
