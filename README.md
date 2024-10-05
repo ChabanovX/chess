@@ -2,6 +2,10 @@
 
 A chess game project with a focus on dynamic board analysis and learning tools.
 
+## Example
+
+![Board themes](https://github.com/ChabanovX/chess/blob/main/board_variations.png)
+
 ## Features
 
 * Dynamic board analysis
