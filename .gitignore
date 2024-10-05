@@ -2,6 +2,7 @@
 .idea/
 .history/
 .env/
+env/
 .DS_Store
 
 # Ignore Python cache directories
