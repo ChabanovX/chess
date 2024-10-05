@@ -23,25 +23,25 @@ class Game:
         pygame.draw.rect(surface, color, rect)
 
     def show_bg(self, surface: pygame.Surface):
-        # TODO PNG
-        img = pygame.image.load("assets/images/boards/board_glass.jpeg")
+        # TODO PNG -> rgb change
+        # img = pygame.image.load("assets/images/boards/board_glass.jpeg")
         # img_center = col * SQUARE_SIZE + SQUARE_SIZE // 2, row * SQUARE_SIZE + SQUARE_SIZE // 2
-        x = img.get_rect(center=(400, 400))
-        surface.blit(img, x)
+        # x = img.get_rect(center=(400, 400))
+        # surface.blit(img, x)
 
-        # # TODO Might want to check if board is a PNG or a basic color scheme
-        # """Shows the desk"""
-        # for row in range(ROWS):
-        #     for col in range(COLUMNS):
-        #         if self.moves and (self.moves[-1][0] == (row, col) or self.moves[-1][1] == (row, col)):
-        #             color = self.themes.get_current_theme()["touched"]["white"] if (row + col) % 2 == 0 \
-        #                 else self.themes.get_current_theme()["touched"]["black"]
-        #         else:
-        #             color = self.themes.get_current_theme()["untouched"]["white"] if (row + col) % 2 == 0 \
-        #                 else self.themes.get_current_theme()["untouched"]["black"]
-        #
-        #         rect = (col * SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE)
-        #         pygame.draw.rect(surface, color, rect)
+        # TODO Might want to check if board is a PNG or a basic color scheme
+        """Shows the desk"""
+        for row in range(ROWS):
+            for col in range(COLUMNS):
+                if self.moves and (self.moves[-1][0] == (row, col) or self.moves[-1][1] == (row, col)):
+                    color = self.themes.get_current_theme()["touched"]["white"] if (row + col) % 2 == 0 \
+                        else self.themes.get_current_theme()["touched"]["black"]
+                else:
+                    color = self.themes.get_current_theme()["untouched"]["white"] if (row + col) % 2 == 0 \
+                        else self.themes.get_current_theme()["untouched"]["black"]
+        
+                rect = (col * SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE)
+                pygame.draw.rect(surface, color, rect)
 
         if self.moves:
             self.draw_tail(surface)
