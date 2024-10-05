@@ -2,6 +2,26 @@
 
 A chess game project with a focus on dynamic board analysis and learning tools.
 
+## Run
+
+### 1. Install the repo
+```bash
+git clone https://github.com/ChabanovX/chess
+cd chess
+```
+
+### 2. Load the dependencies
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+### 3. Run main
+```bash
+python src/main.py
+```
+
 ## Example
 
 ![Board themes](https://github.com/ChabanovX/chess/blob/main/board_variations.png)
