@@ -1,4 +1,3 @@
-# Chess themes module
 
 class Themes:
     current_theme_index = 0
@@ -30,7 +29,6 @@ class Themes:
 
     def set_next_theme(self):
         self.current_theme_index = (self.current_theme_index + 1) % len(self.themes)
-
 
     def set_prev_theme(self):
         self.current_theme_index = (self.current_theme_index - 1) % len(self.themes)

@@ -7,87 +7,91 @@ from game import Game
 
 class Main:
     def __init__(self):
-        """
-        Initializes the main class and sets up pygame, a game object, dragger object, board object, and themes object.
-
-        :return: None
-        """
+        """Initializes the main class and sets up pygame, a game object, dragger object, board object, and themes object."""
         pygame.init()
         pygame.display.set_caption("Chess")
         
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self.game = Game()
-        self.dragger = self.game.dragger
-        self.board = self.game.board
-        self.themes = self.game.themes
-        
-        
-    
+
     def event_manager(self,
                       event: pygame.event
                       ) -> None:
-        """
-        Manages events from pygame.event.get().
-
-        :param event: event returned by pygame.event.get()
-        :return: None
-        """
         # RESET
         if event.type == pygame.KEYDOWN and event.dict['key'] == UP_ARROW_NUM:
             self.game.__init__()
-            self.dragger = self.game.dragger
-            self.board = self.game.board
-            self.themes = self.game.themes
             
+            return
+
+        # # RESIZE
+        # SHOULD BE REWORKED. FUCKING UP THE CONSTANTS
+        # elif event.type == pygame.VIDEORESIZE:
+        #     # Make the window a square, dividable by 8
+        #     new_size = min(event.size) - event.size % 8
+            
+        #     WIDTH = new_size
+        #     HEIGHT = new_size
+            
+        #     self.screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
+        #     print(event.size)
+            
+        #     return
+
         # SET PREV THEME
         elif event.type == pygame.KEYDOWN and event.dict['key'] == LEFT_ARROW_NUM:
-            self.themes.set_prev_theme()
+            self.game.themes.set_prev_theme()
             
+            return
+
         # SET NEXT THEME
         elif event.type == pygame.KEYDOWN and event.dict['key'] == RIGHT_ARROW_NUM:
-            self.themes.set_next_theme()
+            self.game.themes.set_next_theme()
             
+            return
+
         # CLICK
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            self.dragger.update_mouse(event.pos)
-            clicked_row = self.dragger.mouse_y // SQUARE_SIZE
-            clicked_col = self.dragger.mouse_x // SQUARE_SIZE
-            
+            self.game.dragger.update_mouse(event.pos)
+            clicked_row = self.game.dragger.mouse_y // SQUARE_SIZE
+            clicked_col = self.game.dragger.mouse_x // SQUARE_SIZE
+
             # The cell has a piece?
-            if self.board.squares[clicked_row][clicked_col].has_piece():
-                piece = self.board.squares[clicked_row][clicked_col].piece
+            if self.game.board.squares[clicked_row][clicked_col].has_piece():
+                piece = self.game.board.squares[clicked_row][clicked_col].piece
                 # Start dragging a piece
-                self.dragger.save_initial((self.dragger.mouse_y, self.dragger.mouse_x))
-                self.dragger.drag_piece(piece)
+                self.game.dragger.save_initial((self.game.dragger.mouse_y, self.game.dragger.mouse_x))
+                self.game.dragger.drag_piece(piece)
                 
+                return
+
         # DRAG
         elif event.type == pygame.MOUSEMOTION:
             # Continue dragging event
-            if self.dragger.dragging:
-                self.dragger.update_mouse(event.pos)
-                self.dragger.update_blit(self.screen)
+            if self.game.dragger.dragging:
+                self.game.dragger.update_mouse(event.pos)
+                self.game.dragger.update_blit(self.screen)
+                
+                return
                 
         # UNCLICK
         elif event.type == pygame.MOUSEBUTTONUP:
             # Leave peace on the new place
-            if self.dragger.dragging:
+            if self.game.dragger.dragging:
                 clicked_row, clicked_col = event.pos[1] // SQUARE_SIZE, event.pos[0] // SQUARE_SIZE
-                self.game.make_move(self.board,
-                                    self.dragger.piece,
-                                    self.dragger.initial_row, 
-                                    self.dragger.initial_col, 
-                                    clicked_row, clicked_col)
-                self.dragger.undrag_piece()
-                # # Logger
-                # print(f"From {dragger.initial_row} {dragger.initial_col}\n"
-                #       f"Came {clicked_row} {clicked_col} with coos: {dragger.mouse_y} {dragger.mouse_x}\n"
-                #       f"Move is the {game.moves_done}th\n"
-                #       f"---")
+                self.game.make_move(self.game.dragger.initial_row,
+                                    self.game.dragger.initial_col, 
+                                    clicked_row,
+                                    clicked_col)
+                self.game.dragger.undrag_piece()
                 
+                return 
+
         # QUIT
         elif event.type == pygame.QUIT:
             pygame.quit()
             sys.exit(0)
+            
+            return
 
         return
 
@@ -104,8 +108,8 @@ class Main:
             self.game.show_pieces(self.screen)
 
             # Update piece blit while drugging
-            if self.dragger.dragging:
-                self.dragger.update_blit(self.screen)
+            if self.game.dragger.dragging:
+                self.game.dragger.update_blit(self.screen)
 
             for event in pygame.event.get():
                 self.event_manager(event)

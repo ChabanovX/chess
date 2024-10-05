@@ -14,17 +14,15 @@ class Game:
         self.moves_done = 0
         self.moves = []
 
-
     def _draw_tail(self, surface: pygame.Surface):
         """
         Draws a tail of the previous move
 
         :param surface: Surface to draw on
-        :param theme: Current theme
         """
-        
+
         theme = self.themes.get_current_theme()
-        
+
         outgoing_row = self.moves[-1][0][0]
         outgoing_col = self.moves[-1][0][1]
         ingoing_row = self.moves[-1][1][0]
@@ -65,6 +63,7 @@ class Game:
         # surface.blit(img, x)
 
         # TODO Might want to check if board is a PNG or a basic color scheme
+        # Now this is only working with RGB
         
         """Shows the desk"""
         for row in range(ROWS):
@@ -94,7 +93,17 @@ class Game:
                         piece.texture_rect = img.get_rect(center=img_center)
                         surface.blit(img, piece.texture_rect)
                         
-    def _get_possible_squares_for_piece(self, piece, row, col):
+    def _get_possible_squares_for_piece(self, row, col, color):
+        piece_name = self.board.squares[row][col].piece.name
+        return piece_name
+        
+        # Let's restrict eating self color piece first
+        # Only pawns depend on the color
+        
+        # We need to know if on a square exist a piece
+        # Also check boundaries
+        # Also check pins
+        
         possible_squares = []
         return possible_squares
     
@@ -122,48 +131,27 @@ class Game:
         return True
         
     
-    def make_move(self, board, dragged_piece, past_row, past_col, cur_row, cur_col):
-        """
-        Makes a move with params
-        :param board:
-        :param dragged_piece:
-        :param past_row:
-        :param past_col:
-        :param cur_row:
-        :param cur_col:
-        """
-
-        if not self._is_move_legal(board, dragged_piece, past_row, past_col, cur_row, cur_col):
+    def make_move(self, past_row, past_col, cur_row, cur_col):
+        """Makes a move with params"""
+        if not self._is_move_legal(self.board, self.dragger.piece, past_row, past_col, cur_row, cur_col):
             return # Exit
         
-        # SOUND PRODUCING
-        if board.squares[cur_row][cur_col].has_piece():
-            sound_type = "capture"
-        else:
-            sound_type = "move"
-            
+        self._make_sound(cur_row, cur_col)
+        
         self.moves.append([(past_row, past_col), (cur_row, cur_col)])
-        board.add_piece(dragged_piece.name, cur_row, cur_col, dragged_piece.color)
-        board.destroy(past_row, past_col)
+        self.board.add_piece(self.dragger.piece.name, cur_row, cur_col, self.dragger.piece.color)
+        self.board.destroy(past_row, past_col)
 
         self.moves_done += 1
-        self.make_sound(sound_type)
 
 
-    @staticmethod
-    def make_sound(move_type, ):
-        if move_type == "capture":
-            sound = pygame.mixer.Sound(r"assets/sounds/capture.wav")
-            pygame.mixer.Sound.play(sound)
-
-            return
-
-        if move_type == "move":
+    def _make_sound(self, row, col):
+        if self.board.squares[row][col].has_piece():
+            sound = pygame.mixer.Sound(r"assets/sounds/capture.wav")  
+        else:
             sound = pygame.mixer.Sound(r"assets/sounds/move.wav")
-            pygame.mixer.Sound.play(sound)
-
-            return
-
+            
+        pygame.mixer.Sound.play(sound)
         return
     
     @staticmethod
