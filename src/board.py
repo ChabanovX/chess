@@ -4,7 +4,6 @@ from piece import *
 
 
 class Board:
-
     def __init__(self):
         self.squares = [[0] * 8 for col in range(COLUMNS)]
         self.pieces = {
