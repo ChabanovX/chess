@@ -20,6 +20,7 @@ class Piece:
         self.texture = texture
         self.set_texture()
         self.texture_rect = texture_rect
+        self.is_clicked = False
 
     def add_moves(self, move):
         self.moves.append(move)

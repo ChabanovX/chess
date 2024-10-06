@@ -5,6 +5,7 @@ class Square:
         self.row = row
         self.col = col
         self.piece = piece
+        self.is_clicked = False
 
     def has_piece(self) -> bool:
         return self.piece is not None
@@ -14,6 +15,4 @@ class Square:
 
     def has_rival_piece(self, moves_done: int):
         pass
-
-
 

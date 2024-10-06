@@ -13,20 +13,26 @@ class Game:
         self.themes = Themes()
         self.moves_done = 0
         self.moves = []
+        
+    def reset(self):
+        self.board = Board()
+        self.dragger = Dragger()
+        self.moves_done = 0
+        self.moves = []
 
     def _draw_tail(self, surface: pygame.Surface):
-        """
-        Draws a tail of the previous move
+        """Draws a tail of the previous move"""
+        
+        if not self.moves:
+            return
 
-        :param surface: Surface to draw on
-        """
+        theme = self.themes.get_current_theme()["colors"]
+        last_move = self.moves[-1]
 
-        theme = self.themes.get_current_theme()
-
-        outgoing_row = self.moves[-1][0][0]
-        outgoing_col = self.moves[-1][0][1]
-        ingoing_row = self.moves[-1][1][0]
-        ingoing_col = self.moves[-1][1][1]
+        outgoing_row = last_move[0][0]
+        outgoing_col = last_move[0][1]
+        ingoing_row = last_move[1][0]
+        ingoing_col = last_move[1][1]
         
         outgoing_cell = (
             outgoing_col * SQUARE_SIZE,
@@ -44,18 +50,18 @@ class Game:
         
         pygame.draw.rect(
             surface, 
-            theme["colors"]["touched"][self.check_square_color(outgoing_row, outgoing_col)], # COLOR
+            theme["touched"][self.check_square_color(outgoing_row, outgoing_col)], # COLOR
             outgoing_cell # PLACE
             )
         
         pygame.draw.rect(
             surface, 
-            theme["colors"]["touched"][self.check_square_color(ingoing_row, ingoing_col)], # COLOR
+            theme["touched"][self.check_square_color(ingoing_row, ingoing_col)], # COLOR
             ingoing_cell # PLACE
             )
 
 
-    def show_bg(self, surface: pygame.Surface):
+    def render_board(self, surface: pygame.Surface):
         # TODO PNG -> rgb change
         # img = pygame.image.load("assets/images/boards/board_glass.jpeg")
         # img_center = col * SQUARE_SIZE + SQUARE_SIZE // 2, row * SQUARE_SIZE + SQUARE_SIZE // 2
@@ -65,34 +71,41 @@ class Game:
         # TODO Might want to check if board is a PNG or a basic color scheme
         # Now this is only working with RGB
         
-        """Shows the desk"""
+        """Renders the desk"""
+        current_theme = self.themes.get_current_theme()["colors"]
         for row in range(ROWS):
             for col in range(COLUMNS):
-                if self.moves and (self.moves[-1][0] == (row, col) or self.moves[-1][1] == (row, col)):
-                    color = self.themes.get_current_theme()["colors"]["touched"]["white"] if (row + col) % 2 == 0 \
-                        else self.themes.get_current_theme()["colors"]["touched"]["black"]
+                if self.board.squares[row][col].is_clicked:
+                    color = current_theme["clicked"]["white"] if (row + col) % 2 == 0 \
+                        else current_theme["clicked"]["black"]
                 else:
-                    color = self.themes.get_current_theme()["colors"]["untouched"]["white"] if (row + col) % 2 == 0 \
-                        else self.themes.get_current_theme()["colors"]["untouched"]["black"]
+                    color = current_theme["untouched"]["white"] if (row + col) % 2 == 0 \
+                        else current_theme["untouched"]["black"]
         
                 rect = (col * SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE)
                 pygame.draw.rect(surface, color, rect)
 
-        if self.moves:
-            self._draw_tail(surface)
+        self._draw_tail(surface)
 
-    def show_pieces(self, surface: pygame.Surface):
+    def render_pieces(self, surface: pygame.Surface):
+        # If peace was clicked it should produce possible moves. TODO
+        
         for row in range(ROWS):
             for col in range(COLUMNS):
                 if self.board.squares[row][col].has_piece():
                     piece = self.board.squares[row][col].piece
                     if piece is not self.dragger.piece:
-                        piece.set_texture(size=80)
+                        if piece.is_clicked:
+                            piece.set_texture(size=128)
+                        else:
+                            piece.set_texture(size=80)
+                            
                         img = pygame.image.load(piece.texture)
                         img_center = col * SQUARE_SIZE + SQUARE_SIZE // 2, row * SQUARE_SIZE + SQUARE_SIZE // 2
                         piece.texture_rect = img.get_rect(center=img_center)
                         surface.blit(img, piece.texture_rect)
-                        
+
+
     def _get_possible_squares_for_piece(self, row, col, color):
         piece_name = self.board.squares[row][col].piece.name
         return piece_name
