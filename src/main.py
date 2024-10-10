@@ -15,29 +15,43 @@ class Main:
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self.game = Game()
 
-    def do_event_quit(self):
+    def _do_event_quit(self) -> None:
         pygame.quit()
         sys.exit(0)
         
-    def do_event_reset(self):
+    def _do_event_reset(self) -> None:
         self.game.reset()
         
-    def do_event_change_theme(self, set_next_theme: bool) -> None:
+    def _do_event_change_theme(self, set_next_theme: bool) -> None:
         if set_next_theme:
             self.game.themes.set_next_theme()
         else:
             self.game.themes.set_prev_theme()
             
-    def do_event_motion(self, event: pygame.event) -> None:
-        # If we motion and hold a piece:
+    def _do_event_motion(self, event: pygame.event) -> None:
+        """
+        Handles mouse motion events in the Pygame window.
+        
+        This function processes the movement of the mouse within the game window and updates
+        any necessary game state based on the new mouse position. Typically used to update
+        UI elements like hovering effects or highlighting tiles on the chessboard when the
+        mouse is moved.
+        
+        Args:
+            event (pygame.event): The motion event triggered by the mouse moving in the window.
+        
+        Returns:
+            None
+        """
+
         if self.game.dragger.dragging:
             self.game.dragger.update_mouse(event.pos)
             self.game.dragger.render_peace_motion(self.screen)
-        
         else:
             pass
-        
-    def do_event_click(self, event: pygame.event) -> None:
+
+
+    def _do_event_click(self, event: pygame.event) -> None:
         self.game.dragger.update_mouse(event.pos)
         clicked_row = self.game.dragger.mouse_y // SQUARE_SIZE
         clicked_col = self.game.dragger.mouse_x // SQUARE_SIZE
@@ -62,7 +76,7 @@ class Main:
             
             return
         
-    def do_event_unclick(self, event: pygame.event) -> None:
+    def _do_event_unclick(self, event: pygame.event) -> None:
             # Leave peace on the new place if been dragged
             if self.game.dragger.dragging:
                 clicked_row = event.pos[1] // SQUARE_SIZE
@@ -78,9 +92,7 @@ class Main:
                 
             return 
 
-    def event_manager(self,
-                      event: pygame.event
-                      ) -> None:
+    def event_manager(self, event: pygame.event) -> None:
         # RESIZE
         # TODO: SHOULD BE REWORKED. FUCKING UP THE CONSTANTS
         # elif event.type == pygame.VIDEORESIZE:
@@ -96,37 +108,37 @@ class Main:
         
         # RESET
         if event.type == pygame.KEYDOWN and event.key == UP_ARROW_NUM:
-            self.do_event_reset()
+            self._do_event_reset()
             return
 
         # SET PREV THEME
         elif event.type == pygame.KEYDOWN and event.key == LEFT_ARROW_NUM:
-            self.do_event_change_theme(False)
+            self._do_event_change_theme(False)
             return
 
         # SET NEXT THEME
         elif event.type == pygame.KEYDOWN and event.key == RIGHT_ARROW_NUM:
-            self.do_event_change_theme(True)
+            self._do_event_change_theme(True)
             return
 
         # CLICK
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            self.do_event_click(event)
+            self._do_event_click(event)
             return
 
         # DRAG
         elif event.type == pygame.MOUSEMOTION:
-            self.do_event_motion(event)
+            self._do_event_motion(event)
             return
                 
         # UNCLICK
         elif event.type == pygame.MOUSEBUTTONUP:
-            self.do_event_unclick(event)
+            self._do_event_unclick(event)
             return 
 
         # QUITTING
         elif event.type == pygame.QUIT:
-            self.do_event_quit()
+            self._do_event_quit()
             return
 
         return

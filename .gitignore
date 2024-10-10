@@ -4,6 +4,7 @@
 .env/
 env/
 .DS_Store
+*/tempCodeRunnerFile.py
 
 # Ignore Python cache directories
 **/__pycache__/
