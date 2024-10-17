@@ -1,9 +1,0 @@
-1. Add movement control
-2. Add arrows rc
-
----
-Add a socker server to play with friends
-
-Add a function that will calculate main line and show N moves within it.
-It should be available on the other mode. Studying mode
-Ofc it should be modified stockfish
