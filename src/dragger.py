@@ -32,7 +32,7 @@ class Dragger:
         self.dragging = False
 
     def render_peace_motion(self, surface: pygame.Surface):
-        """ Create motion while 'holding' a peace """
+        """Create motion while 'holding' a piece"""
         self.piece.set_texture(size=128)
         img = pygame.image.load(self.piece.texture)
         img_center = self.mouse_x, self.mouse_y
