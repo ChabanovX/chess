@@ -1,9 +1,9 @@
 import pygame
 
-from constants import *
-from board import Board
-from dragger import Dragger
-from themes import Themes
+from chess.constants import *
+from chess.engine.board import Board
+from .dragger import Dragger
+from .themes import Themes
 
 
 class Game:
