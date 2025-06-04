@@ -142,6 +142,18 @@ class Game:
                 return False
         
         return True
+
+    def make_sound(self, sound_type: str) -> None:
+        """Play a sound by type."""
+        if sound_type == "capture":
+            sound = pygame.mixer.Sound(r"assets/sounds/capture.wav")
+        elif sound_type == "move":
+            sound = pygame.mixer.Sound(r"assets/sounds/move.wav")
+        else:
+            raise ValueError(f"Unknown sound type: {sound_type}")
+
+        pygame.mixer.Sound.play(sound)
+        return
         
     
     def make_move(self, past_row, past_col, cur_row, cur_col):
@@ -160,11 +172,10 @@ class Game:
 
     def _make_sound(self, row, col):
         if self.board.squares[row][col].has_piece():
-            sound = pygame.mixer.Sound(r"assets/sounds/capture.wav")  
+            self.make_sound("capture")
         else:
-            sound = pygame.mixer.Sound(r"assets/sounds/move.wav")
-            
-        pygame.mixer.Sound.play(sound)
+            self.make_sound("move")
+
         return
     
     @staticmethod
