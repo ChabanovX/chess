@@ -1,6 +1,6 @@
 import pygame
 
-from constants import *
+from chess.constants import *
 
 
 class Dragger:
@@ -31,9 +31,10 @@ class Dragger:
         self.piece = None
         self.dragging = False
 
-    def render_peace_motion(self, surface: pygame.Surface):
-        """ Create motion while 'holding' a peace """
-        # self.piece.set_texture(size=128)
+
+    def render_piece_motion(self, surface: pygame.Surface):
+        """Create motion while 'holding' a piece."""
+        self.piece.set_texture(size=128)
         img = pygame.image.load(self.piece.texture)
         img_center = self.mouse_x, self.mouse_y
 

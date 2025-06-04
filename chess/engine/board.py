@@ -1,6 +1,6 @@
-from constants import *
-from square import Square
-from piece import *
+from chess.constants import *
+from .square import Square
+from .piece import *
 
 
 class Board:

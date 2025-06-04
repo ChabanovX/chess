@@ -1,9 +1,9 @@
 import pygame
 import sys
 
-from constants import *
-from exceptions import *
-from game import Game
+from chess.constants import *
+from chess.exceptions import *
+from .game import Game
 
 
 class Main:
@@ -46,7 +46,7 @@ class Main:
 
         if self.game.dragger.dragging:
             self.game.dragger.update_mouse(event.pos)
-            self.game.dragger.render_peace_motion(self.screen)
+            self.game.dragger.render_piece_motion(self.screen)
         else:
             pass
 
@@ -77,7 +77,7 @@ class Main:
             return
         
     def _do_event_unclick(self, event: pygame.event) -> None:
-            # Leave peace on the new place if been dragged
+            # Leave piece on the new place if been dragged
             if self.game.dragger.dragging:
                 clicked_row = event.pos[1] // SQUARE_SIZE
                 clicked_col = event.pos[0] // SQUARE_SIZE
@@ -151,9 +151,9 @@ class Main:
             self.game.render_board(self.screen)
             self.game.render_pieces(self.screen)
 
-            # Update piece blit while drugging
+            # Update piece blit while dragging
             if self.game.dragger.dragging:
-                self.game.dragger.render_peace_motion(self.screen)
+                self.game.dragger.render_piece_motion(self.screen)
 
             for event in pygame.event.get():
                 self.event_manager(event)
