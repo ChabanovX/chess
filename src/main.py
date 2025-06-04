@@ -46,7 +46,7 @@ class Main:
 
         if self.game.dragger.dragging:
             self.game.dragger.update_mouse(event.pos)
-            self.game.dragger.render_peace_motion(self.screen)
+            self.game.dragger.render_piece_motion(self.screen)
         else:
             pass
 
@@ -151,7 +151,7 @@ class Main:
 
             # Update piece blit while drugging
             if self.game.dragger.dragging:
-                self.game.dragger.render_peace_motion(self.screen)
+                self.game.dragger.render_piece_motion(self.screen)
 
             for event in pygame.event.get():
                 self.event_manager(event)
