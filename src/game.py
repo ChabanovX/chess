@@ -128,9 +128,10 @@ class Game:
         
         # MISSING THE BOARD
         if not (0 <= cur_row <= 7 and 0 <= cur_col <= 7):
+            # Play capture sound when a piece is dragged off the board
+            self._make_sound(past_row, past_col)
             board.destroy(past_row, past_col)  # Unfortunately destroys the piece (Might delete later)
             self.moves_done += 1
-            self.make_sound("capture")
             return False
 
         # SAME SQUARE
@@ -164,7 +165,7 @@ class Game:
         else:
             sound = pygame.mixer.Sound(r"assets/sounds/move.wav")
             
-        pygame.mixer.Sound.play(sound)
+        sound.play()
         return
     
     @staticmethod
