@@ -1,6 +1,6 @@
 import pygame
 
-from constants import *
+from chess.constants import *
 
 
 class Dragger:

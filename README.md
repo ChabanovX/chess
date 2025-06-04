@@ -6,6 +6,16 @@ A chess game project with a focus on dynamic board analysis and learning tools.
 
 ![Board themes](https://github.com/ChabanovX/chess/blob/main/board_variations.png)
 
+## Structure
+
+```
+chess/
+    engine/     # core board and piece logic
+    ui/         # pygame interface
+    network/    # socket server utilities
+assets/         # images and sounds
+scripts/        # helper entry points
+```
 
 ## Run
 
@@ -24,7 +34,12 @@ pip install -r requirements.txt
 
 ### 3. Run main
 ```bash
-python src/main.py
+python -m chess.ui.main
+```
+
+### 4. Run the network server
+```bash
+python -m chess.network.server
 ```
 
 ## Features

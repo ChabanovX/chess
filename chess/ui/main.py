@@ -1,9 +1,9 @@
 import pygame
 import sys
 
-from constants import *
-from exceptions import *
-from game import Game
+from chess.constants import *
+from chess.exceptions import *
+from .game import Game
 
 
 class Main:
