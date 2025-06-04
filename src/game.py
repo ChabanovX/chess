@@ -108,7 +108,6 @@ class Game:
 
     def _get_possible_squares_for_piece(self, row, col, color):
         piece_name = self.board.squares[row][col].piece.name
-        return piece_name
         
         # Let's restrict eating self color piece first
         # Only pawns depend on the color
@@ -123,14 +122,15 @@ class Game:
     def _is_square_possible(self, piece, row, col):
         return (row, col) in self._get_possible_squares_for_piece(piece, row, col)
 
-    def _is_move_legal(self, board, dragged_piece, past_row, past_col, cur_row, cur_col,
+    def _is_move_legal(self, board, dragged_piece, 
+                       past_row, past_col, cur_row, cur_col,
                        check_for_correct_color=False) -> bool:
         
         # MISSING THE BOARD
         if not (0 <= cur_row <= 7 and 0 <= cur_col <= 7):
             board.destroy(past_row, past_col)  # Unfortunately destroys the piece (Might delete later)
             self.moves_done += 1
-            self.make_sound("capture")
+            self._make_sound("capture")
             return False
 
         # SAME SQUARE
@@ -158,14 +158,13 @@ class Game:
         self.moves_done += 1
 
 
-    def _make_sound(self, row, col):
+    def _make_sound(self, row, col) -> None:
         if self.board.squares[row][col].has_piece():
             sound = pygame.mixer.Sound(r"assets/sounds/capture.wav")  
         else:
             sound = pygame.mixer.Sound(r"assets/sounds/move.wav")
-            
-        pygame.mixer.Sound.play(sound)
-        return
+        
+        sound.play()
     
     @staticmethod
     def check_square_color(row, col):

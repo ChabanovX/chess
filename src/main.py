@@ -81,10 +81,12 @@ class Main:
             if self.game.dragger.dragging:
                 clicked_row = event.pos[1] // SQUARE_SIZE
                 clicked_col = event.pos[0] // SQUARE_SIZE
-                self.game.make_move(self.game.dragger.outgoing_row,
-                                    self.game.dragger.outgoing_col, 
-                                    clicked_row,
-                                    clicked_col)
+                self.game.make_move(
+                    self.game.dragger.outgoing_row,
+                    self.game.dragger.outgoing_col,
+                    clicked_row,
+                    clicked_col,
+                )
                 self.game.dragger.undrag_piece()
             
             else:
