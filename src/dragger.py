@@ -31,6 +31,7 @@ class Dragger:
         self.piece = None
         self.dragging = False
 
+
     def render_piece_motion(self, surface: pygame.Surface):
         """Create motion while 'holding' a piece."""
         self.piece.set_texture(size=128)
