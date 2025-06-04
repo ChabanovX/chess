@@ -88,7 +88,7 @@ class Game:
         self._draw_tail(surface)
 
     def render_pieces(self, surface: pygame.Surface):
-        # If peace was clicked it should produce possible moves. TODO
+        # If piece was clicked it should produce possible moves. TODO
         
         for row in range(ROWS):
             for col in range(COLUMNS):
